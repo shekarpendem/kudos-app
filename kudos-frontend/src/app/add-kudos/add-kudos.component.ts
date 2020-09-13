@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
 import { Employee } from '../employee';
+import { Emp } from '../emp';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 import { Kudo } from '../kudo';
@@ -12,20 +14,47 @@ import { Kudo } from '../kudo';
 })
 export class AddKudosComponent implements OnInit {
   employees: Observable<Employee[]>;
-  id: number;
+  employeeList: Emp[] = [];
+  
   kudo: Kudo = new Kudo();
   submitted = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
-    private employeeService: EmployeeService) { }
+    private employeeService: EmployeeService, private http: HttpClient) { }
 
   ngOnInit() {
     console.log('in init');
-    this.employees = this.employeeService.getEmployeesList();
-    console.log(this.employees)
+    // this.employeeService.getEmployeesList().subscribe(
+    //   data => {
+    //     // for(let key in data){
+    //     //   this.employeeList.push(data[key]);
+    //     // }
+    //     this.employeeList = data;
+    //   },
+    //   error => console.log("error : " + error)
+    // );
+    this.loadEmployees();
+    this.kudo.kudoFrom = "Kavan Dyer"
+    // console.log(this.employeeList)
   }
 
+  loadEmployees():Observable<any>{    
+    this.http.get("http://localhost:8080/kudos-backend/api/v1/employees").subscribe(
+     data=>{
+       console.log(data);
+       this.employeeList = data;
+     }, err=>{
+       console.log(err);
+     }
+   );
+  //  console.log(`rer`+this.employeeList)
+   return this.employeeList;
+ }
+
+
   save() {
+    console.log(this.kudo)
+    // this.kudo.kudoFrom = "Test User"
     this.employeeService
     .addKudos(this.kudo).subscribe(data => {
       console.log(data)

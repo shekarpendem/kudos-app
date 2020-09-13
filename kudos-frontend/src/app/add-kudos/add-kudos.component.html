@@ -2,9 +2,14 @@
 <div [hidden]="submitted" style="width: 400px;">
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
+      <label for="name">Kudo From</label>
+      <input type="text" readonly class="form-control" id="kudoFrom" [(ngModel)]="kudo.kudoFrom" name="kudoFrom">
+    </div>
+    <div class="form-group">
       <label for="eid">Employee:</label>
       <select [(ngModel)]="kudo.eid" name="eid" class="form-control">
-        <option *ngFor="let employee of employeeList">{{employee}}</option>
+        <option disabled selected>Select Employee</option>
+        <option *ngFor="let employee of employeeList" [ngValue]="employee.id">{{employee.firstName}} {{employee.lastName}}</option>
       </select>
     </div>
     <div class="form-group">
