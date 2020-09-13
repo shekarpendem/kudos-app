@@ -24,33 +24,16 @@ export class AddKudosComponent implements OnInit {
 
   ngOnInit() {
     console.log('in init');
-    // this.employeeService.getEmployeesList().subscribe(
-    //   data => {
-    //     // for(let key in data){
-    //     //   this.employeeList.push(data[key]);
-    //     // }
-    //     this.employeeList = data;
-    //   },
-    //   error => console.log("error : " + error)
-    // );
-    this.loadEmployees();
+    this.employeeService.getEmployeesList().subscribe(
+      data => {
+        this.employeeList = data;
+      },
+      error => console.log("error : " + error)
+    );
+    // this.loadEmployees();
     this.kudo.kudoFrom = "Kavan Dyer"
     // console.log(this.employeeList)
   }
-
-  loadEmployees():Observable<any>{    
-    this.http.get("http://localhost:8080/kudos-backend/api/v1/employees").subscribe(
-     data=>{
-       console.log(data);
-       this.employeeList = data;
-     }, err=>{
-       console.log(err);
-     }
-   );
-  //  console.log(`rer`+this.employeeList)
-   return this.employeeList;
- }
-
 
   save() {
     console.log(this.kudo)
