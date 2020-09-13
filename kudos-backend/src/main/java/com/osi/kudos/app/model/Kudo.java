@@ -17,14 +17,14 @@ public class Kudo {
 	private long id;
 	private String kudoComment;
 	private String kudoFrom;
-//	private Employee employee;
+	private long eid;
 	
 	public Kudo() {
 		super();
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}
@@ -48,14 +48,13 @@ public class Kudo {
 		this.kudoFrom = kudoFrom;
 	}
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="eid")
-//	public Employee getEmployee() {
-//		return employee;
-//	}
-//	public void setEmployee(Employee employee) {
-//		this.employee = employee;
-//	}
+	@Column(name = "eid")
+	public long getEid() {
+		return eid;
+	}
+	public void setEid(long eid) {
+		this.eid = eid;
+	}
 
 	@Override
 	public String toString() {

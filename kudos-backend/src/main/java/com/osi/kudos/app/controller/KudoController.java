@@ -49,18 +49,20 @@ public class KudoController {
 	}
 	
 	@PostMapping("/kudos")
-	public Employee createKudo(@Valid @RequestBody Kudo kudo) throws ResourceNotFoundException {
-		Long employeeId = Long.valueOf(1);
+	public Kudo createKudo(@Valid @RequestBody Kudo kudo) throws ResourceNotFoundException {
+		Long employeeId = Long.valueOf(kudo.getEid());
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-		
+		System.out.println("employee="+employee);
 		Kudo kudoSave = new Kudo();
 		kudoSave.setKudoComment(kudo.getKudoComment());
 		kudoSave.setKudoFrom(kudo.getKudoFrom());
+		kudoSave.setEid(kudo.getEid());
 		List<Kudo> kudoList = employee.getKudoList();
 		kudoList.add(kudoSave);
+		System.out.println("###Kudo:"+kudoSave);
 //		employee.setKudoList(kudoList);
-		return employeeRepository.save(employee);
+		return kudoRepository.save(kudoSave);
 	}
 
 }
